@@ -6,21 +6,21 @@ app.secret_key = 'your_secret_key_here'  # Change this to a secure random key
 
 # Precomputed encrypted flags
 ENCRYPTED_FLAGS = {
-    'level1': 'Q1RGe2Jhc2U2NF9lYXN5fQ==',  # CTF{base64_easy}
+    'index': 'Q1RGe2Jhc2U2NF9lYXN5fQ==',  # CTF{base64_easy}
     'level2': 'FWI{fdhvdu_hdvb}',          # CTF{caesar_easy} (Caesar shift: +3)
     'level3': 'EZY{lxwlzozxogf_tqln}'      # CTF{substitution_easy} (Substitution cipher)
 }
 
 # Expected flags
 FLAGS = {
-    'level1': 'CTF{base64_easy}',
+    'index': 'CTF{base64_easy}',
     'level2': 'CTF{caesar_easy}',
     'level3': 'CTF{substitution_easy}'
 }
 
 @app.route('/')
 def home():
-    return redirect(url_for('level1'))
+    return redirect(url_for('index'))
 
 @app.route('/level1', methods=['GET', 'POST'])
 def level1():
@@ -30,13 +30,13 @@ def level1():
             session['passed_level1'] = True
             return redirect(url_for('level2'))
         else:
-            return render_template('level1.html', encrypted=ENCRYPTED_FLAGS['level1'], error="Wrong answer!")
-    return render_template('level1.html', encrypted=ENCRYPTED_FLAGS['level1'], error=None)
+            return render_template('index.html', encrypted=ENCRYPTED_FLAGS['index'], error="Wrong answer!")
+    return render_template('index.html', encrypted=ENCRYPTED_FLAGS['index'], error=None)
 
 @app.route('/level2', methods=['GET', 'POST'])
 def level2():
     if not session.get('passed_level1'):
-        return redirect(url_for('level1'))
+        return redirect(url_for('index'))
     
     if request.method == 'POST':
         user_input = request.form.get('answer', '')
